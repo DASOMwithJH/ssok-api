@@ -53,11 +53,12 @@ CREATE TABLE funding_projects (
                                   creator_id     INT NOT NULL,
                                   artist_id      INT NOT NULL,
                                   vendor_id      INT,
+                                  v_prod_id      INT,
                                   title          VARCHAR(200) NOT NULL,
                                   description    TEXT,
                                   ai_image_url   TEXT NOT NULL,
-    -- status: RECRUITING | CONFIRMED | PRODUCING | DONE | CANCELLED
-                                  status         VARCHAR(30) NOT NULL DEFAULT 'RECRUITING',
+    -- status: PENDING_VENDOR | RECRUITING | CONFIRMED | PRODUCING | DONE | CANCELLED
+                                  status         VARCHAR(30) NOT NULL DEFAULT 'PENDING_VENDOR',
                                   max_unit_price INT NOT NULL,
                                   target_count   INT NOT NULL,
                                   current_count  INT NOT NULL DEFAULT 0,
@@ -66,7 +67,23 @@ CREATE TABLE funding_projects (
 
                                   FOREIGN KEY (creator_id) REFERENCES users(user_id),
                                   FOREIGN KEY (artist_id)  REFERENCES artists(artist_id),
-                                  FOREIGN KEY (vendor_id)  REFERENCES vendors(vendor_id)
+                                  FOREIGN KEY (vendor_id)  REFERENCES vendors(vendor_id),
+                                  FOREIGN KEY (v_prod_id)  REFERENCES vendor_products(v_prod_id)
+);
+
+CREATE TABLE vendor_proposals (
+                                  proposal_id  SERIAL PRIMARY KEY,
+                                  project_id   INT NOT NULL,
+                                  vendor_id    INT NOT NULL,
+                                  v_prod_id    INT NOT NULL,
+    -- status: PENDING | APPROVED | REJECTED
+                                  status       VARCHAR(20) NOT NULL DEFAULT 'PENDING',
+                                  proposed_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                  responded_at TIMESTAMP,
+
+                                  FOREIGN KEY (project_id) REFERENCES funding_projects(project_id),
+                                  FOREIGN KEY (vendor_id)  REFERENCES vendors(vendor_id),
+                                  FOREIGN KEY (v_prod_id)  REFERENCES vendor_products(v_prod_id)
 );
 
 CREATE TABLE participations (

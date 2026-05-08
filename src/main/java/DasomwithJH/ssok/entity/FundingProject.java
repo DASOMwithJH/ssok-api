@@ -32,6 +32,10 @@ public class FundingProject {
     @JoinColumn(name = "vendor_id")
     private Vendor vendor;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "v_prod_id")
+    private VendorProduct vendorProduct;
+
     @Column(nullable = false, length = 200)
     private String title;
 
@@ -60,4 +64,17 @@ public class FundingProject {
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    public void changeStatus(ProjectStatus status) {
+        this.status = status;
+    }
+
+    public void assignVendorAndProduct(Vendor vendor, VendorProduct vendorProduct) {
+        this.vendor = vendor;
+        this.vendorProduct = vendorProduct;
+    }
+
+    public void incrementCurrentCount() {
+        this.currentCount++;
+    }
 }

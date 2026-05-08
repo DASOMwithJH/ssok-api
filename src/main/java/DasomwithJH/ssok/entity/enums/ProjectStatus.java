@@ -1,5 +1,5 @@
 package DasomwithJH.ssok.entity.enums;
 
 public enum ProjectStatus {
-    RECRUITING, CONFIRMED, PRODUCING, DONE, CANCELLED
+    PENDING_VENDOR, RECRUITING, CONFIRMED, PRODUCING, DONE, CANCELLED
 }
