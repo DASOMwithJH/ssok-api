@@ -56,4 +56,9 @@ jobs:
             JWT_SECRET=${{ secrets.JWT_SECRET }} \
             JWT_ACCESS_EXPIRATION=${{ secrets.JWT_ACCESS_EXPIRATION }} \
             JWT_REFRESH_EXPIRATION=${{ secrets.JWT_REFRESH_EXPIRATION }} \
+            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
             docker compose up -d
+            echo "헬스체크 대기 중 (최대 120초)..."
+            timeout 120 bash -c 'until curl -sf http://localhost:8080/actuator/health; do sleep 5; done' \
+              && echo "배포 성공 ✓" \
+              || (echo "헬스체크 실패 - 컨테이너 로그:"; docker compose logs --tail=50 app; exit 1)
