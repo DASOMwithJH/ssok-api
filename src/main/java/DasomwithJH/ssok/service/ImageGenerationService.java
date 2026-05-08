@@ -59,6 +59,7 @@ public class ImageGenerationService {
 
     private final RestClient openAiRestClient;
     private final OpenAiProperties openAiProperties;
+    private final S3Service s3Service;
 
     public ImageGenerationResponse generateGoodsImage(MultipartFile image, String userPrompt) throws IOException {
         String fullPrompt = BASE_PROMPT.formatted("", "", "", userPrompt, "", "");
@@ -72,7 +73,8 @@ public class ImageGenerationService {
                 .body(OpenAiImageEditResponse.class);
 
         String base64 = extractBase64(response);
-        return new ImageGenerationResponse(fullPrompt, base64);
+        String imageUrl = s3Service.uploadBase64Image(base64, "ai-goods");
+        return new ImageGenerationResponse(fullPrompt, imageUrl);
     }
 
     private MultiValueMap<String, Object> buildRequestBody(MultipartFile image, String prompt) throws IOException {

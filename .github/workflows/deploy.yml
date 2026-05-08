@@ -61,6 +61,10 @@ jobs:
             export JWT_ACCESS_EXPIRATION="${{ secrets.JWT_ACCESS_EXPIRATION }}"
             export JWT_REFRESH_EXPIRATION="${{ secrets.JWT_REFRESH_EXPIRATION }}"
             export OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}"
+            export AWS_S3_BUCKET="${{ secrets.AWS_S3_BUCKET }}"
+            export AWS_REGION="${{ secrets.AWS_REGION }}"
+            export AWS_ACCESS_KEY="${{ secrets.AWS_ACCESS_KEY }}"
+            export AWS_SECRET_KEY="${{ secrets.AWS_SECRET_KEY }}"
 
             cd ~/ssok-api
             docker pull $DOCKER_USERNAME/ssok-api:latest
