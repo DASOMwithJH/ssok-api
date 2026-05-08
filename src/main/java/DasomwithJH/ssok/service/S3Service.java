@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
 
+import java.time.Duration;
 import java.util.Base64;
 import java.util.UUID;
 
@@ -13,15 +16,15 @@ import java.util.UUID;
 public class S3Service {
 
     private final S3Client s3Client;
+    private final S3Presigner s3Presigner;
     private final String bucket;
-    private final String region;
 
     public S3Service(S3Client s3Client,
-                     @Value("${aws.s3.bucket}") String bucket,
-                     @Value("${aws.s3.region}") String region) {
+                     S3Presigner s3Presigner,
+                     @Value("${aws.s3.bucket}") String bucket) {
         this.s3Client = s3Client;
+        this.s3Presigner = s3Presigner;
         this.bucket = bucket;
-        this.region = region;
     }
 
     public String uploadBase64Image(String base64, String folder) {
@@ -37,6 +40,15 @@ public class S3Service {
                 RequestBody.fromBytes(imageBytes)
         );
 
-        return "https://" + bucket + ".s3." + region + ".amazonaws.com/" + key;
+        return generatePresignedUrl(key);
+    }
+
+    private String generatePresignedUrl(String key) {
+        GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
+                .signatureDuration(Duration.ofHours(1))
+                .getObjectRequest(r -> r.bucket(bucket).key(key))
+                .build();
+
+        return s3Presigner.presignGetObject(presignRequest).url().toString();
     }
 }

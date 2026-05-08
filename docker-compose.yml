@@ -30,11 +30,16 @@ services:
       JWT_ACCESS_EXPIRATION: ${JWT_ACCESS_EXPIRATION}
       JWT_REFRESH_EXPIRATION: ${JWT_REFRESH_EXPIRATION}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
+      AWS_S3_BUCKET: ${AWS_S3_BUCKET}
+      AWS_REGION: ${AWS_REGION}
+      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY}
+      AWS_SECRET_KEY: ${AWS_SECRET_KEY}
     depends_on:
       db:
         condition: service_healthy
     networks:
       - ssok-network
+      -
     restart: unless-stopped
 
 volumes:
