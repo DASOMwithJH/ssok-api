@@ -34,7 +34,7 @@ public class SecurityConfig {
                 SessionCreationPolicy.STATELESS))   // 세션을 사용하지 않도록 설정(JWT는 Stateless 방식이므로 세션 필요 없음)
             .authorizeHttpRequests(auth -> auth     // 요청에 대한 인가(Authorization) 설정
                 .dispatcherTypeMatchers(ERROR).permitAll()
-                .requestMatchers("/auth/register", "/auth/login", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/images/**", "/actuator/health")
+                .requestMatchers("/auth/register", "/auth/login", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/images/**", "/actuator/health", "api/ai/image/edit")
                 .permitAll()  // 로그인과 회원가입은 인증 없이 접근 가능
                 // requestMatchers를 추가해 API를 통한 필터링 가능
                 .anyRequest().authenticated()   // 그 외 모든 요청은 인증 필요

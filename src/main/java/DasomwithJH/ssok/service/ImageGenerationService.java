@@ -1,6 +1,6 @@
 package DasomwithJH.ssok.service;
 
-import DasomwithJH.ssok.config.OpenAiProperties;
+import DasomwithJH.ssok.global.config.OpenAiProperties;
 import DasomwithJH.ssok.dto.ImageGenerationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;

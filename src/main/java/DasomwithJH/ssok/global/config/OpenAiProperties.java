@@ -1,4 +1,4 @@
-package DasomwithJH.ssok.config;
+package DasomwithJH.ssok.global.config;
 
 import lombok.Getter;
 import lombok.Setter;

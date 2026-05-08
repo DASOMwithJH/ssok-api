@@ -1,4 +1,4 @@
-package DasomwithJH.ssok.config;
+package DasomwithJH.ssok.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
