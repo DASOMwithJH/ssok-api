@@ -122,6 +122,12 @@ public class FundingProjectService {
             .toList();
     }
 
+    public List<FundingProjectDetailResponse> getMyProjects(User user) {
+        return fundingProjectRepository.findByCreator(user).stream()
+            .map(this::buildDetailResponse)
+            .toList();
+    }
+
     private FundingProjectDetailResponse buildDetailResponse(FundingProject project) {
         Vendor vendor = project.getVendor();
         VendorProduct vendorProduct = project.getVendorProduct();
