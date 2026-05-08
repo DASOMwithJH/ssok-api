@@ -38,25 +38,25 @@ jobs:
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          MYSQL_USER: ${{ secrets.MYSQL_USER }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_ACCESS_EXPIRATION: ${{ secrets.JWT_ACCESS_EXPIRATION }}
+          JWT_REFRESH_EXPIRATION: ${{ secrets.JWT_REFRESH_EXPIRATION }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          # GitHub Actions가 secrets를 먼저 치환한 뒤 EC2로 스크립트를 전송
-          # 그래서 EC2에 .env 파일 없이도 환경변수가 전달됨
+          envs: DOCKER_USERNAME,MYSQL_ROOT_PASSWORD,MYSQL_DATABASE,MYSQL_USER,MYSQL_PASSWORD,JWT_SECRET,JWT_ACCESS_EXPIRATION,JWT_REFRESH_EXPIRATION,OPENAI_API_KEY
           script: |
             cd ~/ssok-api
-            docker pull ${{ secrets.DOCKER_USERNAME }}/ssok-api:latest
+            docker pull $DOCKER_USERNAME/ssok-api:latest
             docker compose down app
-            DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }} \
-            MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} \
-            MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }} \
-            MYSQL_USER=${{ secrets.MYSQL_USER }} \
-            MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
-            JWT_SECRET=${{ secrets.JWT_SECRET }} \
-            JWT_ACCESS_EXPIRATION=${{ secrets.JWT_ACCESS_EXPIRATION }} \
-            JWT_REFRESH_EXPIRATION=${{ secrets.JWT_REFRESH_EXPIRATION }} \
-            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
             docker compose up -d
             echo "헬스체크 대기 중 (최대 120초)..."
             timeout 120 bash -c 'until curl -sf http://localhost:8080/actuator/health; do sleep 5; done' \
