@@ -84,3 +84,14 @@ CREATE TABLE participations (
                                 FOREIGN KEY (project_id) REFERENCES funding_projects(project_id),
                                 FOREIGN KEY (user_id)    REFERENCES users(user_id)
 );
+
+CREATE TABLE user_artists (
+                              user_artist_id SERIAL PRIMARY KEY,
+                              user_id        INT NOT NULL,
+                              artist_id      INT NOT NULL,
+                              created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+                              UNIQUE (user_id, artist_id),
+                              FOREIGN KEY (user_id)   REFERENCES users(user_id),
+                              FOREIGN KEY (artist_id) REFERENCES artists(artist_id)
+);
