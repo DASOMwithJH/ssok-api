@@ -38,26 +38,26 @@ jobs:
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-          MYSQL_USER: ${{ secrets.MYSQL_USER }}
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          JWT_ACCESS_EXPIRATION: ${{ secrets.JWT_ACCESS_EXPIRATION }}
-          JWT_REFRESH_EXPIRATION: ${{ secrets.JWT_REFRESH_EXPIRATION }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: DOCKER_USERNAME,MYSQL_ROOT_PASSWORD,MYSQL_DATABASE,MYSQL_USER,MYSQL_PASSWORD,JWT_SECRET,JWT_ACCESS_EXPIRATION,JWT_REFRESH_EXPIRATION,OPENAI_API_KEY
           script: |
+            export DOCKER_USERNAME="${{ secrets.DOCKER_USERNAME }}"
+            export MYSQL_ROOT_PASSWORD="${{ secrets.MYSQL_ROOT_PASSWORD }}"
+            export MYSQL_DATABASE="${{ secrets.MYSQL_DATABASE }}"
+            export MYSQL_USER="${{ secrets.MYSQL_USER }}"
+            export MYSQL_PASSWORD="${{ secrets.MYSQL_PASSWORD }}"
+            export JWT_SECRET="${{ secrets.JWT_SECRET }}"
+            export JWT_ACCESS_EXPIRATION="${{ secrets.JWT_ACCESS_EXPIRATION }}"
+            export JWT_REFRESH_EXPIRATION="${{ secrets.JWT_REFRESH_EXPIRATION }}"
+            export OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}"
+
             cd ~/ssok-api
             docker pull $DOCKER_USERNAME/ssok-api:latest
             docker compose down app
             docker compose up -d
+
             echo "헬스체크 대기 중 (최대 120초)..."
             timeout 120 bash -c 'until curl -sf http://localhost:8080/actuator/health; do sleep 5; done' \
               && echo "배포 성공 ✓" \
