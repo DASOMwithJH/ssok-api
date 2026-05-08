@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: ssok
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 30MB
+
+jwt:
+  secret: ${JWT_SECRET}
+  access-expiration-time: ${JWT_ACCESS_EXPIRATION}
+  refresh-expiration-time: ${JWT_REFRESH_EXPIRATION}
+
+openai:
+  api-key: ${OPENAI_API_KEY}
+  api-url: https://api.openai.com/v1
+  image:
+    model: gpt-image-2
+    size: 1024x1024
