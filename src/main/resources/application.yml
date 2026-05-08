@@ -29,3 +29,10 @@ openai:
   image:
     model: gpt-image-2
     size: 1024x1024
+
+aws:
+  s3:
+    bucket: ${AWS_S3_BUCKET}
+    region: ${AWS_REGION}
+    access-key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_SECRET_KEY}
