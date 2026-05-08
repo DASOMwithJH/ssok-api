@@ -40,13 +40,6 @@ public class FundingProjectController {
         return BaseResponse.created("프로젝트 생성 완료. 업체에 제안을 발송했습니다.", project.getProjectId());
     }
 
-    @Operation(summary = "나의 펀딩 목록 조회", description = "본인이 생성한 모든 펀딩 프로젝트를 상태 무관하게 반환합니다")
-    @GetMapping("/my")
-    public ResponseEntity<BaseResponse<List<FundingProjectDetailResponse>>> getMyProjects(
-        @AuthenticationPrincipal CustomUserDetails userDetails
-    ) {
-        return BaseResponse.ok("나의 펀딩 목록 조회 성공", fundingProjectService.getMyProjects(userDetails.getUser()));
-    }
 
     @Operation(summary = "타 업체 재제안", description = "업체가 거절한 후 다른 업체 상품으로 재제안합니다")
     @ApiResponses({
