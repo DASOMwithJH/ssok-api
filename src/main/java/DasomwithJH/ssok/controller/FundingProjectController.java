@@ -70,4 +70,12 @@ public class FundingProjectController {
     public ResponseEntity<BaseResponse<List<FundingProjectDetailResponse>>> getRecruitingProjects() {
         return BaseResponse.ok("조회 성공", fundingProjectService.getRecruitingProjects());
     }
+
+    @Operation(summary = "나의 펀딩 목록 조회", description = "본인이 생성한 모든 펀딩 프로젝트를 상태 무관하게 반환합니다")
+    @GetMapping("/my")
+    public ResponseEntity<BaseResponse<List<FundingProjectDetailResponse>>> getMyProjects(
+        @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+        return BaseResponse.ok("나의 펀딩 목록 조회 성공", fundingProjectService.getMyProjects(userDetails.getUser()));
+    }
 }
