@@ -1,4 +1,4 @@
-package DasomwithJH.ssok.exception;
+package DasomwithJH.ssok.global.exception;
 
 import lombok.Getter;
 

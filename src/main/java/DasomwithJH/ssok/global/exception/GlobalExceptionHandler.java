@@ -1,4 +1,4 @@
-package DasomwithJH.ssok.exception;
+package DasomwithJH.ssok.global.exception;
 
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
-import semothon.team4.clothesup.global.common.BaseResponse;
+import DasomwithJH.ssok.global.common.BaseResponse;
 
 @Slf4j
 @RestControllerAdvice

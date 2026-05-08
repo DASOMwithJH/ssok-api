@@ -1,9 +1,9 @@
-package DasomwithJH.ssok.exception.code;
+package DasomwithJH.ssok.global.exception.code;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import semothon.team4.clothesup.global.exception.ErrorCode;
+import DasomwithJH.ssok.global.exception.ErrorCode;
 
 @Getter
 @RequiredArgsConstructor
