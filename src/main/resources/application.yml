@@ -22,3 +22,10 @@ jwt:
   secret: ${JWT_SECRET}
   access-expiration-time: ${JWT_ACCESS_EXPIRATION}
   refresh-expiration-time: ${JWT_REFRESH_EXPIRATION}
+
+openai:
+  api-key: ${OPENAI_API_KEY}
+  api-url: https://api.openai.com/v1
+  image:
+    model: gpt-image-2
+    size: 1024x1024
